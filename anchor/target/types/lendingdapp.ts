@@ -5,108 +5,293 @@
  * IDL can be found at `target/idl/lendingdapp.json`.
  */
 export type Lendingdapp = {
-  address: 'Count3AcZucFDPSFBAeHkQ6AvttieKUkyJ8HiQGhQwe'
-  metadata: {
-    name: 'lendingdapp'
-    version: '0.1.0'
-    spec: '0.1.0'
-    description: 'Created with Anchor'
-  }
-  instructions: [
+  "address": "Count3AcZucFDPSFBAeHkQ6AvttieKUkyJ8HiQGhQwe",
+  "metadata": {
+    "name": "lendingdapp",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
     {
-      name: 'close'
-      discriminator: [98, 165, 201, 177, 108, 65, 206, 96]
-      accounts: [
+      "name": "initBank",
+      "discriminator": [
+        73,
+        111,
+        27,
+        243,
+        202,
+        129,
+        159,
+        80
+      ],
+      "accounts": [
         {
-          name: 'payer'
-          writable: true
-          signer: true
+          "name": "signer",
+          "writable": true,
+          "signer": true
         },
         {
-          name: 'lendingdapp'
-          writable: true
+          "name": "mintAddress"
         },
-      ]
-      args: []
+        {
+          "name": "bank",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  97,
+                  110,
+                  107
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mintAddress"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bankVault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  97,
+                  110,
+                  107,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mintAddress"
+              }
+            ]
+          }
+        },
+        {
+          "name": "tokenProgram"
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
     },
     {
-      name: 'decrement'
-      discriminator: [106, 227, 168, 59, 248, 27, 150, 101]
-      accounts: [
+      "name": "initUser",
+      "discriminator": [
+        14,
+        51,
+        68,
+        159,
+        237,
+        78,
+        158,
+        102
+      ],
+      "accounts": [
         {
-          name: 'lendingdapp'
-          writable: true
+          "name": "signer",
+          "writable": true,
+          "signer": true
         },
-      ]
-      args: []
-    },
+        {
+          "name": "user",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "signer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
     {
-      name: 'increment'
-      discriminator: [11, 18, 104, 9, 104, 174, 59, 33]
-      accounts: [
-        {
-          name: 'lendingdapp'
-          writable: true
-        },
-      ]
-      args: []
-    },
-    {
-      name: 'initialize'
-      discriminator: [175, 175, 109, 31, 13, 152, 155, 237]
-      accounts: [
-        {
-          name: 'payer'
-          writable: true
-          signer: true
-        },
-        {
-          name: 'lendingdapp'
-          writable: true
-          signer: true
-        },
-        {
-          name: 'systemProgram'
-          address: '11111111111111111111111111111111'
-        },
-      ]
-      args: []
-    },
-    {
-      name: 'set'
-      discriminator: [198, 51, 53, 241, 116, 29, 126, 194]
-      accounts: [
-        {
-          name: 'lendingdapp'
-          writable: true
-        },
-      ]
-      args: [
-        {
-          name: 'value'
-          type: 'u8'
-        },
+      "name": "bank",
+      "discriminator": [
+        142,
+        49,
+        166,
+        242,
+        50,
+        66,
+        97,
+        188
       ]
     },
-  ]
-  accounts: [
     {
-      name: 'lendingdapp'
-      discriminator: [255, 176, 4, 245, 188, 253, 124, 25]
+      "name": "user",
+      "discriminator": [
+        159,
+        117,
+        95,
+        227,
+        239,
+        151,
+        58,
+        236
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "insufficientFunds",
+      "msg": "Insufficient funds in bank vault."
     },
-  ]
-  types: [
     {
-      name: 'lendingdapp'
-      type: {
-        kind: 'struct'
-        fields: [
+      "code": 6001,
+      "name": "userNotInitialized",
+      "msg": "User account is not initialized."
+    },
+    {
+      "code": 6002,
+      "name": "bankNotInitialized",
+      "msg": "Bank account is not initialized."
+    },
+    {
+      "code": 6003,
+      "name": "invalidMint",
+      "msg": "Invalid mint provided."
+    }
+  ],
+  "types": [
+    {
+      "name": "bank",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            name: 'count'
-            type: 'u8'
+            "name": "authority",
+            "type": "pubkey"
           },
+          {
+            "name": "mintAddress",
+            "type": "pubkey"
+          },
+          {
+            "name": "totalDeposits",
+            "type": "u64"
+          },
+          {
+            "name": "totalDepositShares",
+            "type": "u64"
+          },
+          {
+            "name": "totalBorrowed",
+            "type": "u64"
+          },
+          {
+            "name": "totalBorrowedShares",
+            "type": "u64"
+          },
+          {
+            "name": "liquidationThreshold",
+            "type": "u64"
+          },
+          {
+            "name": "liquidationBonus",
+            "type": "u64"
+          },
+          {
+            "name": "liquidationCloseFactor",
+            "type": "u64"
+          },
+          {
+            "name": "maxLtv",
+            "type": "u64"
+          },
+          {
+            "name": "lastUpdated",
+            "type": "i64"
+          },
+          {
+            "name": "interestRate",
+            "type": "u64"
+          }
         ]
       }
     },
+    {
+      "name": "user",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "depositedSol",
+            "type": "u64"
+          },
+          {
+            "name": "depositedSolShares",
+            "type": "u64"
+          },
+          {
+            "name": "borrowedSol",
+            "type": "u64"
+          },
+          {
+            "name": "borrowedSolShares",
+            "type": "u64"
+          },
+          {
+            "name": "depositedUsdc",
+            "type": "u64"
+          },
+          {
+            "name": "depositedUsdcShares",
+            "type": "u64"
+          },
+          {
+            "name": "borrowedUsdc",
+            "type": "u64"
+          },
+          {
+            "name": "borrowedUsdcShares",
+            "type": "u64"
+          },
+          {
+            "name": "usdcAddress",
+            "type": "pubkey"
+          },
+          {
+            "name": "healthFactor",
+            "type": "u64"
+          },
+          {
+            "name": "lastUpdated",
+            "type": "i64"
+          }
+        ]
+      }
+    }
   ]
-}
+};
