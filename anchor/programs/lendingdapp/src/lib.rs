@@ -18,5 +18,8 @@ pub mod lendingdapp {
     pub fn init_user(cxt: Context<InitUser>) -> Result<()> {
         init_user::handle_init_user(cxt)
     }
+    pub fn deposit(cxt: Context<Deposit>, amount: u64) -> Result<()> {
+        deposit::handle_deposit(cxt, amount)
+    }
 }
 
